@@ -15,17 +15,26 @@ Input: weights = [1, 2, 3], values = [10, 15, 40], capacity = 6 Output: 55 (Maxi
 
 
 '''
-str1="abcde"
-str2="ace"
+def longest_common_subsequence(str1, str2):
+    m, n = len(str1), len(str2)
+    
+    # Create a 2D table to store LCS lengths
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    
+    # Fill the dp table
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if str1[i-1] == str2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    
+    # The length of LCS is stored in dp[m][n]
+    return dp[m][n]
 
-dp=[[0 for i in range(len(str2)+1)]for j in range(len(str1)+1)]
-
-for i in range(len(str1)-1,-1,-1):
-    for j in range(len(str2)-1,-1,-1):
-        if str1[i] == str2[j]:
-            dp[i][j]=1+dp[1+1][j+1]
-        else:
-            dp[i][j]=max(dp[i+1][j],dp[i][j+1])
-
-print("longest subsequence is",dp[0][0])
+# Test the function
+str1 = "abcde"
+str2 = "ace"
+result = longest_common_subsequence(str1, str2)
+print(result)  # Output: 3
 
